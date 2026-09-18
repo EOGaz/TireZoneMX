@@ -37,33 +37,17 @@ export const TireZoneNavbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo TireZoneMX in upper left */}
+          {/* Official TireZoneMX Logo Image in upper left */}
           <div
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            {/* Logo Badge Icon */}
-            <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-800 p-0.5 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full bg-zinc-950 rounded-[10px] flex items-center justify-center relative overflow-hidden">
-                <div className="relative flex flex-col items-center justify-center">
-                  <span className="text-xs font-black text-red-500 tracking-tighter leading-none italic">TIRE</span>
-                  <span className="text-[9px] font-extrabold text-white tracking-widest leading-none">ZONE</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-black italic tracking-wider text-white shadow-sm">
-                  TIREZONE<span className="text-red-600">MX</span>
-                </span>
-                <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-red-600/30 text-red-400 border border-red-500/40 rounded tracking-widest backdrop-blur-sm">
-                  OFICIAL
-                </span>
-              </div>
-              <span className="text-[10px] text-zinc-300 font-semibold tracking-wide shadow-sm">
-                Llantas que mueven tu mundo • Monterrey, NL
-              </span>
+            <div className="h-10 sm:h-12 flex items-center overflow-hidden rounded-lg group-hover:scale-105 transition-transform duration-300">
+              <img
+                src="/TireZoneMXlogo.jpg"
+                alt="TireZoneMX Logo"
+                className="h-full w-auto object-contain rounded-lg shadow-md"
+              />
             </div>
           </div>
 
@@ -71,31 +55,31 @@ export const TireZoneNavbar: React.FC = () => {
           <nav className="hidden md:flex items-center gap-8 bg-zinc-900/60 backdrop-blur-md px-6 py-2 rounded-full border border-zinc-700/50 shadow-md">
             <button
               onClick={() => scrollToSection('inicio')}
-              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider cursor-pointer"
             >
               Inicio
             </button>
             <button
               onClick={() => scrollToSection('marcas')}
-              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider cursor-pointer"
             >
               Marcas
             </button>
             <button
               onClick={() => scrollToSection('nosotros')}
-              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider cursor-pointer"
             >
               Sobre Nosotros
             </button>
             <button
               onClick={() => scrollToSection('catalog-types')}
-              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider cursor-pointer"
             >
               Tipos de Llantas
             </button>
             <button
               onClick={() => scrollToSection('contacto')}
-              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-200 hover:text-red-500 transition-colors uppercase tracking-wider cursor-pointer"
             >
               Contacto
             </button>
