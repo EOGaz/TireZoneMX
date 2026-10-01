@@ -6,4 +6,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
+  // three.js (~680 kB) is lazy-loaded by the 3D tire in the stats section.
+  build: { chunkSizeWarningLimit: 800 },
 })

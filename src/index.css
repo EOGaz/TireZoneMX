@@ -1,47 +1,228 @@
 @import "tailwindcss";
 
+/* Grafito Industrial + Suizo Industrial (round 2): tokens from ~/.inspo/tirezonemx/DESIGN.md */
+@theme {
+  --color-ink: #0b0b0c;
+  --color-graphite: #141416;
+  --color-paper: #ffffff;
+  --color-mist: #f3f3ef;
+  --color-fog: #e9e9e4;
+  --color-line: #e4e4e0;
+  --color-fg: #0f0f10;
+  --color-muted: #6b6b70;
+  --color-accent: #d71920;
+  --color-accent-hover: #b5141a;
+
+  --font-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 88px;
   }
   body {
-    background-color: #ffffff;
-    color: #18181b;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
   }
 }
 
-/* Custom marquee animation for scrolling brands */
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+/* Scroll reveals: App adds .is-visible when an element with data-reveal enters the viewport.
+   --d staggers siblings (1 step = 90ms). */
+[data-reveal] {
+  --d: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--d) * 90ms);
+}
+[data-reveal='up'] { opacity: 0; transform: translateY(28px); }
+[data-reveal='fade'] { opacity: 0; }
+[data-reveal='left'] { opacity: 0; transform: translateX(-32px); }
+[data-reveal='right'] { opacity: 0; transform: translateX(32px); }
+[data-reveal='scale'] { opacity: 0; transform: scale(0.94); }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Image wipe: a panel slides off the photo while it settles from a slight zoom.
+   (clip-path on the observed element would keep IntersectionObserver from ever firing.) */
+[data-reveal='cover']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--color-paper);
+  transform-origin: right;
+  transition: transform 1.1s cubic-bezier(0.7, 0, 0.2, 1);
+  transition-delay: calc(var(--d) * 90ms);
+}
+[data-reveal='cover'].is-visible::after { transform: scaleX(0); }
+[data-reveal='cover'] img { transform: scale(1.12); transition: transform 1.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+[data-reveal='cover'].is-visible img { transform: none; }
+
+/* Word-by-word (or letter-by-letter) rise */
+[data-reveal='words'] .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+[data-reveal='words'] .w > span {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc((var(--d) * 90ms) + (var(--i) * 55ms));
+}
+[data-reveal='words'].is-visible .w > span { transform: none; }
+
+/* Pieces that animate once their section is visible */
+.grow-x { transform: scaleX(0); transform-origin: left; transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s; }
+.is-visible .grow-x, .is-visible.grow-x { transform: scaleX(1); }
+
+/* Navbar drops in on load */
+@keyframes nav-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: none; opacity: 1; }
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 25s linear infinite;
+/* Hero photo: slow push-in */
+@keyframes kenburns {
+  from { transform: scale(1.02); }
+  to { transform: scale(1.1); }
+}
+.animate-kenburns { animation: kenburns 22s ease-in-out infinite alternate; }
+
+/* Benefits: a highlight walks down the spec sheet and the coverage list */
+@keyframes row-scan {
+  0%, 18%, 100% { background-color: transparent; }
+  6%, 12% { background-color: rgb(215 25 32 / 0.06); }
+}
+@keyframes dot-seq {
+  0%, 20%, 100% { transform: scale(1); background-color: rgb(15 15 16 / 0.25); }
+  8%, 14% { transform: scale(1.6); background-color: var(--color-accent); }
 }
 
-.animate-marquee:hover {
+/* FAQ answer slides in when a question opens */
+@keyframes faq-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+details[open] > .faq-a { animation: faq-in 0.35s ease-out; }
+
+/* Gentle float for icons */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Hero slide progress bar */
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Catalog: tread pattern rolling inside each sector panel */
+.tread {
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  animation: roll var(--dur, 2s) linear infinite;
+}
+@keyframes roll {
+  from { -webkit-mask-position: 0 0; mask-position: 0 0; }
+  to { -webkit-mask-position: 0 var(--step); mask-position: 0 var(--step); }
+}
+
+/* Size decoder: tire spinning slowly */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 28s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* Process mocks: loops that keep each step alive */
+@keyframes type-in {
+  0%, 8% { width: 0; }
+  45%, 85% { width: var(--w); }
+  100% { width: 0; }
+}
+@keyframes caret {
+  50% { opacity: 0; }
+}
+@keyframes fill-bar {
+  0% { transform: scaleX(0); }
+  70%, 100% { transform: scaleX(1); }
+}
+@keyframes pop-check {
+  0%, 15% { transform: scale(0); opacity: 0; }
+  25%, 85% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
+@keyframes drive {
+  0% { left: 0%; }
+  80%, 100% { left: calc(100% - 28px); }
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(215 25 32 / 0.45); }
+  50% { box-shadow: 0 0 0 8px rgb(215 25 32 / 0); }
+}
+
+/* Testimonials: two columns drifting upward forever */
+@keyframes drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.animate-drift {
+  animation: drift var(--drift-duration, 40s) linear infinite;
+}
+.drift-group:hover .animate-drift {
   animation-play-state: paused;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.mask-fade-y {
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
 }
-::-webkit-scrollbar-track {
-  background: #f4f4f5;
-}
-::-webkit-scrollbar-thumb {
-  background: #dc2626;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #b91c1c;
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-drift,
+  .tread,
+  .animate-spin-slow,
+  .animate-kenburns,
+  .loop-anim,
+  .loop-anim *,
+  [style*='animation'] {
+    animation: none !important;
+  }
+  [data-reveal],
+  [data-reveal] .w > span,
+  [data-reveal='cover'] img,
+  .grow-x {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-reveal='cover']::after {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
