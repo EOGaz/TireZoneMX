@@ -30,8 +30,17 @@ Prototipo de Landing Page para la empresa de llantas **TireZoneMX**. Diseñada c
 - [x] **Formulario de Contacto en la Parte Inferior**: Todos los campos originales conservados (*Nombre*, *Medidas*, *Empresa*, *Marcas*, *Correo*, *Comentarios*).
 - [x] **Compilación y Servidor Local**: Proyecto compilado y ejecutándose en `http://localhost:5173`.
 
+- [x] **Rediseño "Grafito Industrial" (octubre 2026)**, investigado y votado con inspo:
+  - Paleta clara tipo suizo (`#f3f3ef`) con bloques oscuros, rojo `#d71920` solo en acciones, tipografía Inter Tight / Inter / JetBrains Mono (sin cursivas).
+  - Hero fijo con Raptor R derrapando en arena (`public/hero-raptor-r.jpg`, generada con IA) y barra "Cotiza por medida".
+  - Marcas a color sin bordes, catálogo "Sectores con huella", sección "Lee tu medida" (decodificador), beneficios con ficha técnica y cobertura, números con llanta 3D (three.js, carga diferida), cómo funciona en tarjetas apiladas con animaciones en loop, testimonios en columnas, FAQ, contacto en 2 pasos y footer nuevo.
+  - Animaciones de entrada en todas las secciones; respetan `prefers-reduced-motion`.
+  - Datos de negocio en `src/data.ts`. **Placeholder por confirmar:** teléfono, años, medidas en stock, tiempos de entrega, horario y testimonios (personas ficticias).
+
 ---
 
 ## Next Planned Advances
 - [ ] Conectar formulario con backend o API de correo (EmailJS / SendGrid).
-- [ ] Agregar buscador/filtrador dinámico por medida de llanta en tiempo real.
+- [x] Buscador por medida (barra del hero + decodificador). Falta conectarlo a un inventario real.
+- [ ] Reemplazar datos y testimonios placeholder por los reales.
+- [ ] Fotos propias (almacén, equipo, entregas).
